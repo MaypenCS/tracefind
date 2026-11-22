@@ -1,0 +1,7 @@
+.env
+backend/.env
+backend/.venv/
+**/__pycache__/
+frontend/node_modules/
+backend/tracefind/data/sites.latest.json
+.pytest_cache/
