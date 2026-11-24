@@ -6,9 +6,10 @@ if not exist .venv (
   py -3 -m venv .venv || python -m venv .venv
   call .venv\Scripts\activate.bat
   python -m pip install --upgrade pip >nul
-  pip install -r requirements.txt
 ) else (
   call .venv\Scripts\activate.bat
 )
+REM Installs anything new in requirements.txt (quick when everything is already there).
+pip install -q -r requirements.txt
 if exist "%~dp0.env" copy /y "%~dp0.env" .env >nul
 python -m tracefind serve %*

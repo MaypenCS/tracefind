@@ -41,8 +41,17 @@ def main():
 
     if a.cmd == "serve":
         import uvicorn
+        from .public import public_mode, trust_cloudflare
         url = f"http://{a.host}:{a.port}"
         print(f"tracefind running at {url}  (Ctrl+C to stop)")
+        if public_mode():
+            a.no_browser = True
+            print("PUBLIC MODE: username sweep off, history owner-only, rate limits on.")
+            if not os.getenv("SMTP_HOST"):
+                print("WARNING: SMTP_HOST is not set, so visitors will never receive verification codes.")
+            if trust_cloudflare() and a.host not in ("127.0.0.1", "localhost"):
+                print("WARNING: TRACEFIND_TRUST_CLOUDFLARE is on but tracefind isn't bound to 127.0.0.1. "
+                      "Visitors could fake their IP. Use --host 127.0.0.1 behind the tunnel.")
         if not a.no_browser:
             threading.Timer(1.2, lambda: webbrowser.open(url)).start()
         uvicorn.run("tracefind.app:app", host=a.host, port=a.port, log_level="warning")

@@ -7,9 +7,9 @@ if [ ! -d .venv ]; then
   python3 -m venv .venv
   . .venv/bin/activate
   pip install --upgrade pip >/dev/null
-  pip install -r requirements.txt
 else
   . .venv/bin/activate
 fi
+pip install -q -r requirements.txt
 [ -f ../.env ] && cp ../.env .env
 exec python -m tracefind serve "$@"

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TraceFind Exposure Report — {{ r.report_id }}</title>
+<style>
+  @page { size: Letter; margin: 16mm 14mm 18mm;
+          @bottom-left { content: "TraceFind by {{ brand_line }}"; font: 8pt sans-serif; color: #6b7280; }
+          @bottom-right { content: "Page " counter(page) " of " counter(pages); font: 8pt sans-serif; color: #6b7280; } }
+  :root { --ink:#111827; --muted:#6b7280; --line:#e5e7eb; --brand:#5E8F00; --brand-dark:#070B10; --lime:#B6FF3B;
+          --high:#dc2626; --high-bg:#fef2f2; --med:#d97706; --med-bg:#fffbeb;
+          --low:#2563eb; --low-bg:#eff6ff; --info:#6b7280; --info-bg:#f9fafb; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: "Inter", "Segoe UI", Helvetica, Arial, sans-serif; color:var(--ink);
+         font-size:10.5pt; line-height:1.5; background:#fff; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 24px; }
+  header.top { background: linear-gradient(135deg, #070B10, #0E1620 70%, #13202b); color:#E6EDF3;
+               border-radius: 12px; padding: 22px 26px; }
+  .brandline { font-family: 'JetBrains Mono', Consolas, monospace; font-size:8.5pt; letter-spacing:.2em; text-transform:uppercase; color:#7D8B99; }
+  .brandline b { color: var(--lime); }
+  h1 .lime { color: var(--lime); }
+  h1 { margin:4px 0 2px; font-size:22pt; }
+  .meta { display:flex; flex-wrap:wrap; gap:6px 22px; font-size:9.5pt; opacity:.92; margin-top:8px; }
+  .demo { background:#fde68a; color:#78350f; font-weight:700; text-align:center; padding:6px;
+          border-radius:8px; margin-top:12px; font-size:9.5pt; }
+  .overall { display:flex; gap:18px; align-items:center; border:1px solid var(--line);
+             border-radius:12px; padding:16px 20px; margin:18px 0; break-inside:avoid; }
+  .badge { font-weight:800; text-transform:uppercase; letter-spacing:.06em; border-radius:999px;
+           padding:4px 12px; font-size:9pt; white-space:nowrap; }
+  .sev-high { color:var(--high); background:var(--high-bg); }
+  .sev-medium { color:var(--med); background:var(--med-bg); }
+  .sev-low { color:var(--low); background:var(--low-bg); }
+  .sev-info { color:var(--info); background:var(--info-bg); }
+  .big { font-size:15pt; padding:8px 18px; }
+  .counts { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:8px; }
+  .count { border:1px solid var(--line); border-radius:10px; padding:10px; text-align:center; }
+  .count b { display:block; font-size:18pt; }
+  h2 { font-size:13pt; margin:26px 0 10px; padding-bottom:6px; border-bottom:2px solid var(--brand); break-after:avoid; page-break-after:avoid; }
+  .finding { border:1px solid var(--line); border-left:5px solid var(--info); border-radius:10px;
+             padding:14px 16px; margin-bottom:12px; break-inside:avoid; }
+  .finding.high { border-left-color:var(--high); } .finding.medium { border-left-color:var(--med); }
+  .finding.low { border-left-color:var(--low); }
+  .finding h3 { margin:0 0 6px; font-size:11.5pt; display:flex; gap:10px; align-items:center; }
+  .finding p { margin:4px 0 8px; }
+  .label { font-size:8.5pt; font-weight:700; text-transform:uppercase; color:var(--muted); letter-spacing:.05em; }
+  ul { margin:4px 0 6px; padding-left:20px; }
+  .evidence { font-size:9pt; color:var(--muted); word-break:break-all; }
+  table { width:100%; border-collapse:collapse; font-size:9.5pt; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#f9fafb; font-size:8.5pt; text-transform:uppercase; color:var(--muted); }
+  .checklist li { list-style:none; margin-left:-20px; padding:4px 0; }
+  .checklist li::before { content:"☐  "; color:var(--brand); font-weight:700; }
+  .changes li { padding:2px 0; }
+  .note { font-size:9pt; color:var(--muted); border-top:1px solid var(--line); margin-top:28px; padding-top:12px; }
+  @media print { .wrap { padding:0; } * { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+</style>
+</head>
+<body><div class="wrap">
+
+<header class="top">
+  <div class="brandline">trace<b>find</b> · {{ brand_name }}</div>
+  <h1>Exposure <span class="lime">Report</span></h1>
+  <div class="meta">
+    <span><b>Target:</b> {{ r.scan.target }} ({{ r.scan.target_type }})</span>
+    <span><b>Scanned:</b> {{ r.scan.scanned_at.strftime('%B %d, %Y %H:%M UTC') }}</span>
+    <span><b>Report ID:</b> {{ r.report_id }}</span>
+    {% if r.scan.sites_checked %}<span><b>Sites checked:</b> {{ r.scan.sites_checked }}</span>{% endif %}
+  </div>
+  {% if r.scan.is_demo %}<div class="demo">DEMO REPORT — all data is fictional</div>{% endif %}
+</header>
+
+<section class="overall">
+  <span class="badge big sev-{{ r.overall.value }}">{{ r.overall.value }}</span>
+  <div><b>Overall exposure</b><br>{{ r.summary }}</div>
+</section>
+
+<div class="counts">
+  {% for s in ['high','medium','low','info'] %}
+  <div class="count"><b class="sev-{{ s }}" style="background:none">{{ r.counts[s] }}</b>{{ s|capitalize }}</div>
+  {% endfor %}
+</div>
+
+{% if r.changes %}
+<h2>Changes since {{ r.changes.previous_scanned_at.strftime('%B %d, %Y') }}</h2>
+<ul class="changes">{% for c in r.changes_summary %}<li>{{ c }}</li>{% endfor %}</ul>
+{% endif %}
+
+<h2>Findings</h2>
+{% for f in r.findings %}
+<div class="finding {{ f.severity.value }}">
+  <h3><span class="badge sev-{{ f.severity.value }}">{{ f.severity.value }}</span>{{ f.title }}</h3>
+  <div class="label">Why it matters</div>
+  <p>{{ f.why_it_matters }}</p>
+  <div class="label">What to do</div>
+  <ul>{% for a in f.actions %}<li>{{ a }}</li>{% endfor %}</ul>
+  {% if f.evidence %}
+  <div class="label">Details</div>
+  <ul class="evidence">{% for e in f.evidence %}<li>{{ e }}</li>{% endfor %}</ul>
+  {% endif %}
+</div>
+{% else %}
+<p>No findings in the sources checked.</p>
+{% endfor %}
+
+{% if r.scan.domain %}
+<h2>Domain checks passed</h2>
+{% set passed = r.scan.domain.checks|selectattr('status', 'equalto', 'pass')|list %}
+{% if passed %}
+<table>
+  <tr><th style="width:14%">Area</th><th>Check</th></tr>
+  {% for c in passed %}<tr><td>{{ c.group|capitalize }}</td><td>✓ {{ c.title }}</td></tr>{% endfor %}
+</table>
+{% else %}<p>None of the checks passed.</p>{% endif %}
+<p class="evidence">Ownership verified: {{ 'yes' if r.scan.domain.ownership_verified else 'no' }} ·
+   Exposed-file checks: {{ 'ran' if r.scan.domain.active_checks_ran else 'not run' }}</p>
+{% endif %}
+
+{% if r.scan.breaches %}
+<h2>Breach history</h2>
+<table>
+  <tr><th>Breach</th><th>Date</th><th>Exposed data types</th><th>Source</th></tr>
+  {% for b in r.scan.breaches|sort(attribute='breach_date', reverse=True) %}
+  <tr><td><b>{{ b.name }}</b></td><td>{{ b.breach_date or '—' }}</td>
+      <td>{{ b.data_classes|join(', ') }}</td><td>{{ b.source }}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if grouped_hits %}
+<h2>Username matches by category</h2>
+<table>
+  <tr><th style="width:22%">Category</th><th>Platforms</th></tr>
+  {% for cat, hits in grouped_hits %}
+  <tr><td><b>{{ cat }}</b> ({{ hits|length }})</td><td>{{ hits|map(attribute='platform')|join(', ') }}</td></tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+{% if r.checklist %}
+<h2>Remediation checklist</h2>
+<ul class="checklist">{% for c in r.checklist %}<li>{{ c }}</li>{% endfor %}</ul>
+{% endif %}
+
+<h2>What TraceFind could not verify</h2>
+<ul>{% for u in r.unverified %}<li>{{ u }}</li>{% endfor %}</ul>
+
+{% set ok_sources = r.scan.sources|selectattr('status', 'equalto', 'ok')|list %}
+{% if ok_sources %}
+<p class="evidence"><b>Sources checked:</b> {{ ok_sources|map(attribute='name')|join(', ') }}.
+{% for s in r.scan.sources if 'CC BY' in s.detail %}{% if loop.first %} Breach details from Have I Been Pwned (haveibeenpwned.com), licensed CC BY 4.0.{% endif %}{% endfor %}</p>
+{% endif %}
+
+<div class="note">
+  {% if r.scan.target_type == 'domain' %}
+  <b>Point-in-time check.</b> Results reflect DNS records and server responses at scan time.
+  File contents found during checks are never stored.
+  {% else %}
+  <b>Potential exposure identified — verify ownership before acting.</b>
+  This report lists leads from public sources and breach databases, not proof of compromise.
+  {% endif %}
+  Leaked values such as passwords are never stored or shown. Generated
+  {{ r.generated_at.strftime('%Y-%m-%d %H:%M UTC') }} by TraceFind · {{ brand_line }}
+</div>
+
+</div></body>
+</html>

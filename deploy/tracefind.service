@@ -1,0 +1,44 @@
+# /etc/systemd/system/tracefind.service
+# Runs TraceFind's public site as a locked-down background service.
+# It listens on 127.0.0.1 only: Cloudflare Tunnel is the only way in from the internet.
+[Unit]
+Description=TraceFind public site (Maypen Cybersecurity)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=tracefind
+Group=tracefind
+WorkingDirectory=/opt/tracefind/backend
+EnvironmentFile=/etc/tracefind/tracefind.env
+ExecStart=/opt/tracefind/backend/.venv/bin/python -m tracefind serve --host 127.0.0.1 --port 8000 --no-browser
+Restart=on-failure
+RestartSec=5
+
+# Data lives in /var/lib/tracefind (created automatically, owned by the tracefind user)
+StateDirectory=tracefind
+StateDirectoryMode=0700
+
+# Hardening: the service can't touch the rest of the system
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+CapabilityBoundingSet=
+SystemCallArchitectures=native
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

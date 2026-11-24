@@ -5,3 +5,6 @@ backend/.venv/
 frontend/node_modules/
 backend/tracefind/data/sites.latest.json
 .pytest_cache/
+backend/.tracefind_secret
+backend/*.db
+backend/tracefind/data/hibp_breaches.json

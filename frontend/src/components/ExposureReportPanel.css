@@ -1,0 +1,65 @@
+/* Dark theme to sit inside the existing TraceFind UI. Tweak the variables to match. */
+.erp {
+  --erp-bg: var(--panel, #0B1219); --erp-card: var(--panel2, #0E1620); --erp-line: var(--line, #1E2A36);
+  --erp-ink: var(--text, #E6EDF3); --erp-muted: var(--muted, #7D8B99); --erp-brand: var(--lime, #B6FF3B);
+  --erp-high: var(--red, #FF4D6D); --erp-med: var(--amber, #FFB020); --erp-low: var(--cyan, #2DE2E6); --erp-info: var(--muted, #7D8B99);
+  margin-top: 18px; font-family: var(--sans, inherit);
+  background: var(--erp-bg); color: var(--erp-ink); border: 1px solid var(--erp-line);
+  border-radius: 14px; padding: 20px; font-size: 14px; line-height: 1.5;
+}
+.erp-loading, .erp-muted { color: var(--erp-muted); }
+.erp-error { color: #FFC2CD; background: rgba(255,77,109,.08); border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
+.erp-demo { background: #fde68a; color: #78350f; font-weight: 700; text-align: center; border-radius: 8px; padding: 6px; margin-bottom: 14px; font-size: 13px; }
+
+.erp-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+.erp-head h2 { margin: 2px 0 0; font-size: 20px; word-break: break-all; }
+.erp-kicker { color: var(--erp-muted); font-family: var(--mono, monospace); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; }
+.erp-actions { display: flex; gap: 8px; }
+.erp-actions button {
+  background: transparent; color: var(--erp-ink); border: 1px solid var(--erp-line);
+  border-radius: 8px; padding: 8px 14px; cursor: pointer; font: inherit;
+}
+.erp-actions button.primary { background: var(--erp-brand); border-color: var(--erp-brand); color: var(--bg, #070B10); font-weight: 700; }
+.erp-actions button:disabled { opacity: .6; cursor: wait; }
+
+.sev-high { --sev: var(--erp-high); } .sev-medium { --sev: var(--erp-med); }
+.sev-low { --sev: var(--erp-low); }   .sev-info { --sev: var(--erp-info); }
+
+.erp-badge {
+  color: var(--sev); background: color-mix(in srgb, var(--sev) 15%, transparent);
+  border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .06em; white-space: nowrap;
+}
+.erp-badge.big { font-size: 15px; padding: 6px 16px; }
+
+.erp-overall { display: flex; align-items: center; gap: 14px; background: var(--erp-card);
+  border: 1px solid var(--erp-line); border-left: 4px solid var(--sev); border-radius: 10px; padding: 12px 16px; }
+.erp-overall p { margin: 0; }
+
+.erp-counts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 12px 0 16px; }
+.erp-count { background: var(--erp-card); border: 1px solid var(--erp-line); border-radius: 10px; padding: 8px; text-align: center; }
+.erp-count b { display: block; font-size: 22px; color: var(--sev); font-family: var(--mono, monospace); }
+.erp-count span { color: var(--erp-muted); font-size: 12px; text-transform: capitalize; }
+
+.erp-changes { background: var(--erp-card); border: 1px solid var(--erp-line); border-left: 4px solid var(--erp-brand);
+  border-radius: 10px; padding: 10px 14px; margin-bottom: 14px; }
+.erp-changes h3 { margin: 0 0 4px; font-size: 14px; }
+.erp-changes ul { margin: 0; padding-left: 20px; }
+.erp-finding { background: var(--erp-card); border: 1px solid var(--erp-line); border-left: 4px solid var(--sev);
+  border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+.erp-finding-head { all: unset; box-sizing: border-box; width: 100%; display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px; cursor: pointer; }
+.erp-finding-head:focus-visible { outline: 2px solid var(--erp-brand); outline-offset: -2px; }
+.erp-title { flex: 1; font-weight: 600; }
+.erp-chev { color: var(--erp-muted); font-size: 18px; width: 18px; text-align: center; }
+.erp-body { padding: 0 14px 12px 14px; }
+.erp-body h4 { margin: 10px 0 2px; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--erp-muted); }
+.erp-body p { margin: 0; }
+.erp-body ul { margin: 4px 0; padding-left: 20px; }
+.erp-evidence { color: var(--erp-muted); font-size: 12.5px; word-break: break-all; }
+
+.erp-unverified { margin-top: 14px; color: var(--erp-muted); }
+.erp-unverified summary { cursor: pointer; }
+.erp-footnote { margin: 14px 0 0; color: var(--erp-muted); font-size: 12px; }
+
+@media (max-width: 560px) { .erp-counts { grid-template-columns: repeat(2, 1fr); } }

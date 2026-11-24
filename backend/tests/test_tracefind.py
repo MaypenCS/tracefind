@@ -101,6 +101,7 @@ def breach_handler(request: httpx.Request):
 
 
 def test_breach_lookup_summarises_and_redacts(monkeypatch):
+    monkeypatch.setenv("TRACEFIND_DISABLE_XON", "1")
     monkeypatch.setenv("HIBP_API_KEY", "k")
     monkeypatch.setenv("DEHASHED_API_KEY", "k")
     monkeypatch.delenv("INTELX_API_KEY", raising=False)
@@ -135,4 +136,5 @@ def test_api(monkeypatch):
     assert body.count("event: result") == 3 and '"found": 3' in body
     for k in ("HIBP_API_KEY", "DEHASHED_API_KEY", "INTELX_API_KEY"):
         monkeypatch.delenv(k, raising=False)
+    monkeypatch.setenv("TRACEFIND_DISABLE_XON", "1")
     assert c.post("/api/breach", json={"term": "a@b.co"}).status_code == 400

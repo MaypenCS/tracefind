@@ -1,0 +1,46 @@
+.sh {
+  --sh-bg: var(--panel, #0B1219); --sh-card: var(--panel2, #0E1620); --sh-line: var(--line, #1E2A36);
+  --sh-ink: var(--text, #E6EDF3); --sh-muted: var(--muted, #7D8B99); --sh-brand: var(--lime, #B6FF3B);
+  --sh-add: var(--lime, #B6FF3B); --sh-rem: var(--muted, #7D8B99); --sh-err: var(--red, #FF4D6D);
+  margin-top: 18px; font-family: var(--sans, inherit);
+  background: var(--sh-bg); color: var(--sh-ink); border: 1px solid var(--sh-line);
+  border-radius: 14px; padding: 20px; font-size: 14px; line-height: 1.5;
+}
+.sh .sev-high { --sev: var(--red, #FF4D6D); } .sh .sev-medium { --sev: var(--amber, #FFB020); }
+.sh .sev-low { --sev: var(--cyan, #2DE2E6); }  .sh .sev-info { --sev: var(--muted, #7D8B99); }
+
+.sh-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px; margin-bottom: 10px; }
+.sh-head h2 { margin: 2px 0 0; font-size: 20px; word-break: break-all; }
+.sh-kicker { color: var(--sh-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+.sh-muted, .sh-hint { color: var(--sh-muted); margin: 0; }
+.sh-hint { font-size: 12px; margin-bottom: 8px; }
+.sh-error { color: var(--sh-err); background: rgba(248,113,113,.1); border-radius: 8px; padding: 8px 12px; margin: 8px 0; }
+
+.sh-list { list-style: none; margin: 0; padding: 0; }
+.sh-item { display: flex; align-items: center; gap: 10px; background: var(--sh-card); border: 1px solid var(--sh-line);
+  border-radius: 10px; padding: 10px 12px; margin-bottom: 6px; }
+.sh-item.is-sel { border-color: var(--sh-brand); }
+.sh-check input { accent-color: var(--sh-brand); width: 16px; height: 16px; cursor: pointer; }
+.sh-badge { color: var(--sev); background: color-mix(in srgb, var(--sev) 15%, transparent); border-radius: 999px;
+  padding: 2px 10px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: .06em; min-width: 62px; text-align: center; }
+.sh-main { flex: 1; min-width: 0; }
+.sh-date { font-weight: 600; font-family: var(--mono, monospace); font-size: 13px; }
+.sh-main .sh-muted { font-size: 12.5px; }
+.sh-btn { background: transparent; color: var(--sh-ink); border: 1px solid var(--sh-line); border-radius: 8px;
+  padding: 6px 12px; cursor: pointer; font: inherit; font-size: 13px; }
+.sh-btn:hover { border-color: var(--sh-brand); }
+.sh-danger { color: var(--sh-muted); padding: 6px 9px; }
+.sh-danger:hover { color: var(--sh-err); border-color: var(--sh-err); }
+
+.sh-diff { background: var(--sh-card); border: 1px solid var(--sh-line); border-left: 4px solid var(--sh-brand);
+  border-radius: 10px; padding: 12px 14px; margin-top: 14px; }
+.sh-diff h3 { margin: 0 0 8px; font-size: 15px; }
+.sh-block { margin-bottom: 8px; }
+.sh-block-title { font-weight: 700; font-size: 13px; }
+.sh-add .sh-block-title { color: var(--sh-add); }
+.sh-rem .sh-block-title { color: var(--sh-rem); }
+.sh-block ul { margin: 2px 0 0; padding-left: 20px; }
+.sh-block a { color: var(--sh-ink); }
+.sh-report { margin-top: 16px; }
+
+@media (max-width: 560px) { .sh-item { flex-wrap: wrap; } }

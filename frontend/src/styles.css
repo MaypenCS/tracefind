@@ -94,3 +94,30 @@ footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line2)
   .results .url { grid-column: 2; } .results .ms { display: none; }
   .prompt { display: none; }
 }
+
+/* ---- History tab ---- */
+.hist-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 13px; margin-bottom: 14px; }
+.hist-empty { font-size: 14px; }
+.hist-targets { list-style: none; padding: 0; margin: 0; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.hist-targets li + li { border-top: 1px solid var(--line2); }
+.hist-targets button { all: unset; box-sizing: border-box; width: 100%; display: grid; grid-template-columns: 84px 1fr auto auto;
+  gap: 12px; align-items: center; padding: 11px 16px; cursor: pointer; font-size: 14px; }
+.hist-targets button:hover, .hist-targets button.on { background: var(--panel2); }
+.hist-targets button.on { box-shadow: inset 3px 0 0 var(--lime); }
+.hist-name { font-family: var(--mono); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hist-type { font: 600 11px var(--mono); text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.hist-type.domain { color: var(--cyan); } .hist-type.email { color: var(--amber); } .hist-type.username { color: var(--lime); }
+.hist-sev { font: 800 11px var(--mono); text-transform: uppercase; letter-spacing: 1px; padding: 2px 8px; border-radius: 999px; }
+.hist-sev.high { color: var(--red); background: rgba(255,77,109,.12); }
+.hist-sev.medium { color: var(--amber); background: rgba(255,176,32,.12); }
+.hist-sev.low { color: var(--cyan); background: rgba(45,226,230,.12); }
+.hist-sev.info { color: var(--muted); background: rgba(125,139,153,.12); }
+
+/* ---- Password check ---- */
+.pwcheck { margin-top: 30px; padding-top: 22px; border-top: 1px solid var(--line); }
+.pwcheck h3 { margin: 0 0 4px; font-size: 17px; }
+.pwcheck > p { font-size: 13px; margin: 0 0 12px; line-height: 1.5; }
+.pw-result { margin-top: 12px; padding: 12px 14px; border-radius: 10px; font-size: 14px; line-height: 1.5; }
+.pw-result.bad { background: rgba(255,77,109,.08); border: 1px solid rgba(255,77,109,.35); color: #FFC2CD; }
+.pw-result.good { background: rgba(182,255,59,.06); border: 1px solid rgba(182,255,59,.35); color: var(--soft); }
+.pw-result.good b { color: var(--lime); }

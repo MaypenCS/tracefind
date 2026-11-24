@@ -1,0 +1,25 @@
+.ve {
+  --ve-bg: var(--panel, #0B1219); --ve-line: var(--line, #1E2A36); --ve-ink: var(--text, #E6EDF3);
+  --ve-muted: var(--muted, #7D8B99); --ve-brand: var(--lime, #B6FF3B); --ve-err: var(--red, #FF4D6D);
+  --ve-ok: var(--lime, #B6FF3B); margin-top: 18px; font-family: var(--sans, inherit);
+  background: var(--ve-bg); color: var(--ve-ink); border: 1px solid var(--ve-line);
+  border-radius: 14px; padding: 22px; max-width: 420px; margin: 0 auto; text-align: center;
+  font-size: 14px; line-height: 1.5;
+}
+.ve h3 { margin: 6px 0 6px; font-size: 18px; }
+.ve-icon { font-size: 28px; }
+.ve-muted, .ve-msg { color: var(--ve-muted); margin: 0 0 14px; }
+.ve-email { font-weight: 600; word-break: break-all; background: var(--panel2, #0E1620); border: 1px solid var(--ve-line);
+  border-radius: 8px; padding: 8px 12px; margin-bottom: 12px; font-family: var(--mono, monospace); }
+.ve-code { width: 100%; box-sizing: border-box; text-align: center; font-size: 28px; letter-spacing: .5em;
+  padding: 10px 0 10px .5em; background: var(--panel2, #0E1620); color: var(--ve-ink); border: 1px solid var(--ve-line);
+  border-radius: 10px; margin-bottom: 12px; font-family: ui-monospace, Consolas, monospace; }
+.ve-code:focus { outline: 2px solid var(--ve-brand); border-color: transparent; }
+.ve-primary { width: 100%; background: var(--ve-brand); color: var(--bg, #070B10); border: 0; border-radius: 10px;
+  padding: 11px; font: inherit; font-weight: 600; cursor: pointer; }
+.ve-primary:disabled { opacity: .55; cursor: default; }
+.ve-link { display: block; margin: 12px auto 0; background: none; border: 0; color: var(--ve-muted);
+  text-decoration: underline; cursor: pointer; font: inherit; font-size: 13px; }
+.ve-link:disabled { cursor: default; text-decoration: none; opacity: .7; }
+.ve-err { color: var(--ve-err); margin: 12px 0 0; }
+.ve-done { color: var(--ve-ok); padding: 10px 14px; max-width: none; text-align: left; }
